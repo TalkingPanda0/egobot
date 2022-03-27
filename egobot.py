@@ -8,8 +8,8 @@ import re
 from time import sleep
 
 def alarmthread(update,context,stop,buses):
-    slist = {15,12,10,5} # numbers to say it at
-    said = 0 # to not say the same thing twice
+    slist = {15,12,10,5} # kaç dk kalınca söyleyeceği
+    said = 0 # en son söylediği sayı
     while 1:
         timeleft = gettimeleft(stop,buses)
         for bus in timeleft:
@@ -24,18 +24,17 @@ def alarmthread(update,context,stop,buses):
             
             
     
-def hello(update: Update, context: CallbackContext) -> None:
-        update.message.reply_text("hello")
+def help(update: Update, context: CallbackContext) -> None:
+        update.message.reply_text("Alarmı başlatmak için /alarm <Durak no> <otobüs no(lar)> yazınız")
 
 def startalarm(update: Update, context: CallbackContext) -> None:
-    print("ªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªª")
     try:
         stop = context.args[0]
         buses = context.args[1:]
         _thread.start_new_thread(alarmthread, (update,context,stop,buses))
         update.message.reply_text(f'{stop} nolu durakta {buses} kodlu otobüsler için alarm başladı.')
     except:
-         update.message.reply_text(f'{update.effective_user.first_name} idot')
+         help(update,context)
     return
 
 def initbot():
@@ -43,10 +42,10 @@ def initbot():
         updater = Updater(tokenf.read().splitlines()[0])
     
     updater.dispatcher.add_handler(CommandHandler('alarm', startalarm))
-    updater.dispatcher.add_handler(CommandHandler('hello', hello))
+    updater.dispatcher.add_handler(CommandHandler('start', help))
     
     updater.start_polling()
-    print("bot inited")
+    print("Bot Hazır!")
     updater.idle()
     
 def gettimeleft(stop,buses):
