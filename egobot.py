@@ -25,7 +25,7 @@ def alarmthread(update,context,stop,buses):
             
     
 def help(update: Update, context: CallbackContext) -> None:
-        update.message.reply_text("Alarmı başlatmak için /alarm <Durak no> <otobüs no(lar)> yazınız")
+        update.message.reply_text("Alarmı başlatmak için /alarm <Durak no> <hat kod(lar)> yazınız")
 
 def startalarm(update: Update, context: CallbackContext) -> None:
     try:
